@@ -1,109 +1,124 @@
 import React, { useState } from 'react'
 import { FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa'
+import { motion } from 'framer-motion'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { profile } from '../data/profile'
 import { trackContactSubmit, trackGithubClick, trackLinkedinClick } from '../lib/analytics'
 
-const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+const contactLinks = (p) => [
+  { icon: <FaEnvelope className="text-primary" />, label: p.social.email, href: `mailto:${p.social.email}`, onClick: null },
+  { icon: <FaLinkedin className="text-primary" />, label: p.social.linkedin?.replace('https://', ''), href: p.social.linkedin, onClick: () => trackLinkedinClick('Contact') },
+  { icon: <FaGithub className="text-primary" />,   label: p.social.github?.replace('https://', ''),   href: p.social.github,   onClick: () => trackGithubClick('Contact') },
+].filter(l => l.href)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+const inputCls = 'w-full rounded-xl border border-border/60 bg-background/60 px-4 py-2.5 text-sm outline-none transition-all duration-200 focus:border-primary/60 focus:ring-2 focus:ring-primary/15 placeholder:text-muted-foreground/50'
+
+const Contact = () => {
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [sending, setSending] = useState(false)
+
+  const handleChange = (e) => setForm(p => ({ ...p, [e.target.name]: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setSending(true)
     try {
-      const response = await fetch(`https://formsubmit.co/${profile.social.email}`, {
+      const res = await fetch(`https://formsubmit.co/${profile.social.email}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(form),
       })
-      if (response.ok) {
-        trackContactSubmit(formData.email)
-        toast.success('Thank you for your message! I will get back to you soon.', {
-          position: 'top-right', autoClose: 5000,
-        })
-        setFormData({ name: '', email: '', message: '' })
-      } else {
-        throw new Error('Failed')
-      }
+      if (res.ok) {
+        trackContactSubmit(form.email)
+        toast.success('Message sent! I\'ll get back to you soon. 🎉', { position: 'top-right', autoClose: 5000 })
+        setForm({ name: '', email: '', message: '' })
+      } else throw new Error()
     } catch {
-      toast.error('Sorry, there was an error sending your message. Please try again later.', {
-        position: 'top-right', autoClose: 5000,
-      })
+      toast.error('Something went wrong. Please try again.', { position: 'top-right', autoClose: 5000 })
     } finally {
-      setIsSubmitting(false)
+      setSending(false)
     }
   }
 
   return (
-    <section id="contact" className="py-16 sm:py-20 lg:py-24 bg-foreground/[0.02]">
+    <section id="contact" className="py-20 sm:py-24 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <motion.div className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-primary/8 blur-3xl"
+          animate={{ x: [0,20,0], y: [0,-20,0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }} />
+        <motion.div className="absolute top-10 right-10 w-48 h-48 rounded-full bg-accent/6 blur-2xl"
+          animate={{ x: [0,-15,0], y: [0,15,0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+      </div>
+
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Contact Me</h2>
-        </div>
+        <motion.div className="mb-14"
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <h2 className="section-heading">Contact Me</h2>
+        </motion.div>
 
-        <div className="flex flex-wrap gap-10">
-          <div className="flex-1 min-w-[280px]">
-            <ToastContainer />
-            <h3 className="text-xl font-semibold">Get In Touch</h3>
-            <p className="text-muted-foreground mt-2">Feel free to contact me for any work or suggestions below.</p>
-            <div className="mt-6 space-y-4">
-              <div className="flex items-center gap-3">
-                <FaEnvelope className="text-primary" />
-                <a href={`mailto:${profile.social.email}`} className="hover:text-primary transition-colors">
-                  {profile.social.email}
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <FaLinkedin className="text-primary" />
-                <a href={profile.social.linkedin} target="_blank" rel="noopener noreferrer"
-                  onClick={() => trackLinkedinClick('Contact Section')}
-                  className="hover:text-primary transition-colors">
-                  {profile.social.linkedin.replace('https://', '')}
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <FaGithub className="text-primary" />
-                <a href={profile.social.github} target="_blank" rel="noopener noreferrer"
-                  onClick={() => trackGithubClick('Contact Section')}
-                  className="hover:text-primary transition-colors">
-                  {profile.social.github.replace('https://', '')}
-                </a>
-              </div>
+        <div className="grid md:grid-cols-2 gap-10 max-w-4xl">
+          {/* Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <h3 className="text-xl font-bold mb-2">Get In Touch</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-8">
+              Feel free to reach out for collaborations, opportunities, or just a friendly chat. I'm always open to new ideas!
+            </p>
+            <div className="space-y-3">
+              {contactLinks(profile).map(l => (
+                <motion.a key={l.label} href={l.href}
+                  target={l.href.startsWith('mailto') ? undefined : '_blank'}
+                  rel="noopener noreferrer" onClick={l.onClick}
+                  className="flex items-center gap-3 p-3 rounded-xl glass border border-border/50 hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 text-sm group"
+                  whileHover={{ x: 4 }}>
+                  <span className="text-base">{l.icon}</span>
+                  <span className="text-muted-foreground group-hover:text-foreground transition-colors truncate">{l.label}</span>
+                </motion.a>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex-1 min-w-[280px]">
-            <form className="rounded-md border border-border bg-card p-5 shadow-sm" onSubmit={handleSubmit}>
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <ToastContainer theme="dark" />
+            <form onSubmit={handleSubmit} className="glass rounded-2xl border border-border/50 p-6 space-y-4">
               {[
-                { id: 'name',    label: 'Name',    type: 'text',  placeholder: 'Your name' },
-                { id: 'email',   label: 'Email',   type: 'email', placeholder: 'Your email' },
+                { id: 'name',  label: 'Name',  type: 'text',  placeholder: 'Your name' },
+                { id: 'email', label: 'Email', type: 'email', placeholder: 'your@email.com' },
               ].map(f => (
-                <div key={f.id} className="mb-4">
-                  <label htmlFor={f.id} className="mb-2 block text-sm font-medium">{f.label}</label>
+                <div key={f.id}>
+                  <label htmlFor={f.id} className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">
+                    {f.label}
+                  </label>
                   <input type={f.type} id={f.id} name={f.id}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    value={formData[f.id]} onChange={handleChange} required placeholder={f.placeholder} />
+                    className={inputCls} value={form[f.id]}
+                    onChange={handleChange} required placeholder={f.placeholder} />
                 </div>
               ))}
-              <div className="mb-4">
-                <label htmlFor="message" className="mb-2 block text-sm font-medium">Message</label>
+              <div>
+                <label htmlFor="message" className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide">
+                  Message
+                </label>
                 <textarea id="message" name="message" rows={5}
-                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[120px]"
-                  value={formData.message} onChange={handleChange} required placeholder="Your message" />
+                  className={`${inputCls} resize-none`}
+                  value={form.message} onChange={handleChange}
+                  required placeholder="Tell me about your project or idea..." />
               </div>
-              <button type="submit" disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50">
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </button>
+              <motion.button type="submit" disabled={sending}
+                className="btn-glow w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-60 disabled:cursor-not-allowed"
+                whileHover={{ scale: sending ? 1 : 1.01 }} whileTap={{ scale: 0.98 }}>
+                {sending ? (
+                  <><span className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" /> Sending…</>
+                ) : 'Send Message →'}
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

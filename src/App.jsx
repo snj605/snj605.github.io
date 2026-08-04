@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Header from './components/Header'
 import About from './components/About'
@@ -15,6 +15,20 @@ const Education      = React.lazy(() => import('./components/Education'))
 const Certifications = React.lazy(() => import('./components/Certifications'))
 const Contact        = React.lazy(() => import('./components/Contact'))
 
+function ScrollProgress() {
+  const [width, setWidth] = useState(0)
+  useEffect(() => {
+    const onScroll = () => {
+      const el = document.documentElement
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100
+      setWidth(pct)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return <div id="scroll-progress" style={{ width: `${width}%` }} />
+}
+
 function App() {
   useEffect(() => {
     initGA()
@@ -23,6 +37,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ScrollProgress />
       <Helmet>
         <title>{profile.name} — Full Stack Developer | React, Node.js</title>
         <meta name="description" content={`${profile.name} — Full Stack Developer building modern web applications with React, Node.js, and various technologies.`} />
@@ -36,13 +51,19 @@ function App() {
       <Header />
       <div className="main-content">
         <About />
+        <div className="section-divider" />
         <Suspense fallback={<div className="container py-16"><SkeletonGrid count={6} /></div>}>
           <Blog />
           <Experience />
+          <div className="section-divider" />
           <Projects />
+          <div className="section-divider" />
           <Skills />
+          <div className="section-divider" />
           <Education />
+          <div className="section-divider" />
           <Certifications />
+          <div className="section-divider" />
           <Contact />
         </Suspense>
       </div>

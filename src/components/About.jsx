@@ -6,112 +6,155 @@ import { motion } from 'framer-motion'
 import { profile } from '../data/profile'
 import { trackGithubClick, trackLinkedinClick } from '../lib/analytics'
 
+const socials = (p) => [
+  { href: `mailto:${p.social.email}`,  icon: <FaEnvelope />,  label: 'Email',     color: 'from-rose-500 to-pink-500',    onClick: null },
+  { href: p.social.linkedin,           icon: <FaLinkedin />,  label: 'LinkedIn',  color: 'from-blue-500 to-blue-600',    onClick: () => trackLinkedinClick('About') },
+  { href: p.social.github,             icon: <FaGithub />,    label: 'GitHub',    color: 'from-gray-600 to-gray-800',    onClick: () => trackGithubClick('About') },
+  { href: p.social.x,                  icon: <BsTwitterX />,  label: 'X',         color: 'from-sky-400 to-sky-600',      onClick: null },
+  { href: p.social.instagram,          icon: <FaInstagram />, label: 'Instagram', color: 'from-fuchsia-500 to-pink-600', onClick: null },
+].filter(s => s.href)
+
 const About = () => {
   return (
-    <section id="about" className="container py-16 sm:py-20 lg:py-24 relative overflow-hidden">
-      {/* Animated background blobs */}
-      <div className="absolute inset-0 -z-10">
-        <motion.div
-          className="absolute top-0 left-1/4 w-72 h-72 bg-gradient-to-r from-blue-400/10 to-purple-500/10 rounded-full blur-3xl"
-          animate={{ x: [0, 30, 0], y: [0, -30, 0], scale: [1, 1.2, 1] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-r from-pink-400/10 to-orange-500/10 rounded-full blur-3xl"
-          animate={{ x: [0, -40, 0], y: [0, 40, 0], scale: [1, 0.8, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-green-400/5 to-blue-500/5 rounded-full blur-2xl"
-          animate={{ x: [0, 20, 0], y: [0, 20, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
+    <section id="about" className="container py-20 sm:py-28 relative overflow-hidden">
+      {/* Background orbs */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <motion.div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-primary/10 blur-3xl"
+          animate={{ x: [0,40,0], y: [0,-30,0], scale: [1,1.15,1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }} />
+        <motion.div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-accent/10 blur-3xl"
+          animate={{ x: [0,-30,0], y: [0,30,0], scale: [1,0.85,1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 4 }} />
+        <motion.div className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full bg-primary/5 blur-2xl"
+          animate={{ x: [0,20,0], y: [0,20,0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
       </div>
 
-      <div className="flex flex-col-reverse md:flex-row items-center gap-10">
-        {/* Text */}
-        <motion.div className="flex-1"
+      <div className="flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-20">
+
+        {/* ── Text side ── */}
+        <motion.div className="flex-1 space-y-5"
           initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6 }}>
+          viewport={{ once: true }} transition={{ duration: 0.7 }}>
+
+          {/* Availability badge */}
+          <motion.div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-xs font-medium text-muted-foreground border border-border/60"
+            initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ delay: 0.1 }}>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-ring" />
+            Available for opportunities
+          </motion.div>
+
           <motion.h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent"
+            className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            {profile.name}
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.15 }}>
+            <span className="gradient-text-static">{profile.name}</span>
           </motion.h1>
-          <motion.h3
-            className="text-2xl sm:text-3xl font-semibold tracking-tight mb-4"
+
+          <motion.div className="text-xl sm:text-2xl font-semibold"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}>
             <ReactTyped
               strings={profile.titles}
-              typeSpeed={50} backSpeed={50} backDelay={2000} loop
-              className="typed-text bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent"
+              typeSpeed={50} backSpeed={40} backDelay={2200} loop
+              className="gradient-text"
             />
-          </motion.h3>
-          {profile.bio.map((p, i) => (
-            <motion.p key={i}
-              className="mt-3 text-muted-foreground text-lg leading-relaxed"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}>
-              {p}
-            </motion.p>
-          ))}
-        </motion.div>
+          </motion.div>
 
-        {/* Image + Socials */}
-        <motion.div className="flex-1 w-full flex flex-col items-center gap-4"
-          initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
-          <div className="relative group">
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-lg blur-lg opacity-20"
-              animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.3, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-r from-primary to-purple-500 rounded-full"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.8, 1, 0.8] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute -bottom-2 -left-2 w-2 h-2 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full"
-              animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0.9, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-            />
-            <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-lg group-hover:shadow-xl transition-all duration-500">
-              {profile.image ? (
-                <motion.img
-                  src={profile.image} alt={profile.name}
-                  className="w-full h-auto" loading="lazy"
-                  whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}
-                />
-              ) : (
-                <div className="w-full h-64 flex items-center justify-center text-8xl bg-gradient-to-br from-muted to-card">
-                  👨‍💻
-                </div>
-              )}
-            </div>
+          <div className="space-y-3">
+            {profile.bio.map((p, i) => (
+              <motion.p key={i} className="text-muted-foreground leading-relaxed"
+                initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}>
+                {p}
+              </motion.p>
+            ))}
           </div>
 
-          <motion.div className="flex items-center gap-4 text-xl"
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}>
-            {[
-              { href: `mailto:${profile.social.email}`, icon: <FaEnvelope />, label: 'Email', onClick: null },
-              { href: profile.social.linkedin, icon: <FaLinkedin />, label: 'LinkedIn', onClick: () => trackLinkedinClick('About Section') },
-              { href: profile.social.github, icon: <FaGithub />, label: 'GitHub', onClick: () => trackGithubClick('About Section') },
-              { href: profile.social.x, icon: <BsTwitterX />, label: 'X', onClick: null },
-              { href: profile.social.instagram, icon: <FaInstagram />, label: 'Instagram', onClick: null },
-            ].filter(s => s.href).map(s => (
+          {/* CTA buttons */}
+          <motion.div className="flex flex-wrap gap-3 pt-2"
+            initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ delay: 0.5 }}>
+            <a href="#contact"
+              onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }) }}
+              className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">
+              Get In Touch →
+            </a>
+            <a href={profile.cvPath} download={profile.cvFileName}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl glass border border-border/60 text-sm font-medium hover:border-primary/40 transition-all duration-200">
+              Download CV ↓
+            </a>
+          </motion.div>
+
+          {/* Social icons */}
+          <motion.div className="flex items-center gap-2 pt-1"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+            viewport={{ once: true }} transition={{ delay: 0.6 }}>
+            {socials(profile).map(s => (
               <motion.a key={s.label} href={s.href}
                 target={s.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer" aria-label={s.label}
                 onClick={s.onClick}
-                className="p-2 rounded-lg bg-gradient-to-r from-primary/10 to-purple-500/10 hover:from-primary/20 hover:to-purple-500/20 transition-all duration-300 hover:scale-110 border border-border/50"
-                whileHover={{ scale: 1.1, rotate: 5 }} whileTap={{ scale: 0.95 }}>
-                {s.icon}
+                className="group relative p-2.5 rounded-xl glass border border-border/50 hover:border-primary/40 transition-all duration-200"
+                whileHover={{ scale: 1.12, y: -2 }} whileTap={{ scale: 0.93 }}>
+                <span className={`absolute inset-0 rounded-xl bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-15 transition-opacity duration-200`} />
+                <span className="relative text-muted-foreground group-hover:text-foreground transition-colors text-base">
+                  {s.icon}
+                </span>
               </motion.a>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* ── Image side ── */}
+        <motion.div className="flex-shrink-0 flex flex-col items-center gap-5"
+          initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }}>
+
+          <div className="relative">
+            {/* Outer glow ring */}
+            <div className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 blur-2xl" />
+            {/* Floating dots */}
+            <motion.div className="absolute -top-3 -right-3 w-4 h-4 rounded-full bg-gradient-to-br from-primary to-accent shadow-glow"
+              animate={{ scale: [1,1.4,1], opacity: [0.8,1,0.8] }}
+              transition={{ duration: 2.2, repeat: Infinity }} />
+            <motion.div className="absolute -bottom-3 -left-3 w-3 h-3 rounded-full bg-gradient-to-br from-accent to-pink-500"
+              animate={{ scale: [1,1.3,1], opacity: [0.6,0.9,0.6] }}
+              transition={{ duration: 2.8, repeat: Infinity, delay: 1 }} />
+            <motion.div className="absolute top-1/2 -right-5 w-2 h-2 rounded-full bg-primary/60"
+              animate={{ y: [-4,4,-4] }} transition={{ duration: 3, repeat: Infinity }} />
+
+            {/* Photo card */}
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl glass border border-white/20 overflow-hidden shadow-glass-dark">
+              {profile.image ? (
+                <motion.img src={profile.image} alt={profile.name}
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.04 }} transition={{ duration: 0.4 }} />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-muted via-card to-muted">
+                  <span className="text-7xl animate-float">👨💻</span>
+                  <span className="text-xs text-muted-foreground">Add your photo in profile.js</span>
+                </div>
+              )}
+              {/* Shimmer overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Stats row */}
+          <motion.div className="flex gap-3"
+            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ delay: 0.5 }}>
+            {[
+              { value: '2+', label: 'Years Exp.' },
+              { value: '10+', label: 'Projects' },
+              { value: '5+', label: 'Technologies' },
+            ].map(stat => (
+              <div key={stat.label} className="glass border border-border/50 rounded-xl px-4 py-2.5 text-center min-w-[72px]">
+                <div className="text-lg font-black gradient-text">{stat.value}</div>
+                <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>
+              </div>
             ))}
           </motion.div>
         </motion.div>
