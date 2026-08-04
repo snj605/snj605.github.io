@@ -1,47 +1,57 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { FaExternalLinkAlt } from 'react-icons/fa'
-import { getPortfolioData } from '../data/portfolioData'
+import React, { useState } from 'react'
+import ReactCardFlip from 'react-card-flip'
+import { FaGithub } from 'react-icons/fa'
+import { FaAws } from 'react-icons/fa'
+import { certifications } from '../data/certifications'
 
-export default function Certifications() {
-  const { certifications } = getPortfolioData()
+const Certifications = () => {
+  const [flipped, setFlipped] = useState({})
+  const toggle = (i) => setFlipped(prev => ({ ...prev, [i]: !prev[i] }))
 
   return (
-    <section id="certifications" className="section bg-[hsl(var(--muted))]">
-      <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.5 }}>
-          <h2 className="section-title">Certifications</h2>
-          <p className="section-subtitle">Credentials and achievements.</p>
-        </motion.div>
+    <section id="certifications" className="py-16 sm:py-20 lg:py-24 bg-foreground/[0.02]">
+      <div className="container text-center">
+        <div className="mb-12">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Certifications</h2>
+          <p className="mt-2 text-muted-foreground">Recognized achievements in the field of technology.</p>
+        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {certifications.map((cert, i) => (
-            <motion.div key={cert.id} className="card flex gap-4 items-start"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }}>
-              {cert.image ? (
-                <img src={cert.image} alt={cert.name} className="w-14 h-14 object-contain rounded-lg flex-shrink-0" />
-              ) : (
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 text-2xl">
-                  🏅
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-sm leading-snug">{cert.name}</h3>
-                <p className="text-primary text-xs mt-0.5">{cert.issuer}</p>
-                <p className="text-xs text-[hsl(var(--muted-foreground))] mt-0.5">{cert.period}</p>
+            <ReactCardFlip key={i} isFlipped={!!flipped[i]} flipDirection="horizontal">
+              {/* Front */}
+              <div className="rounded-md border border-border bg-card p-6 shadow-sm cursor-pointer" onClick={() => toggle(i)}>
+                {cert.icon === 'aws'
+                  ? <FaAws size={40} className="mx-auto mb-3 text-[#FF9900]" />
+                  : <FaGithub size={40} className="mx-auto mb-3 text-foreground" />
+                }
+                <h3 className="text-lg font-semibold">{cert.name}</h3>
+                <p className="text-sm text-muted-foreground">Issued By: {cert.issuer}</p>
+                <p className="text-sm text-muted-foreground">{cert.period}</p>
                 {cert.link && cert.link !== '#' && (
                   <a href={cert.link} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-primary hover:underline mt-1.5">
-                    View <FaExternalLinkAlt size={9} />
+                    className="inline-block mt-3 text-primary font-medium"
+                    onClick={e => e.stopPropagation()}>
+                    View Certificate
                   </a>
                 )}
               </div>
-            </motion.div>
+
+              {/* Back */}
+              <div
+                className={`rounded-md border border-border p-4 text-white cursor-pointer ${cert.icon === 'aws' ? 'bg-[#FF9900]' : 'bg-foreground'}`}
+                onClick={() => toggle(i)}>
+                {cert.image
+                  ? <img src={cert.image} alt={cert.name} className="w-full h-auto rounded-md" loading="lazy" />
+                  : <div className="h-40 flex items-center justify-center text-4xl">🏅</div>
+                }
+              </div>
+            </ReactCardFlip>
           ))}
         </div>
       </div>
     </section>
   )
 }
+
+export default Certifications

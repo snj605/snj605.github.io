@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa'
-import { getPortfolioData } from '../data/portfolioData'
+import { FaBars, FaTimes } from 'react-icons/fa'
+import { ModeToggle } from './theme/mode-toggle'
+import { cn } from '../lib/utils'
+import { profile } from '../data/profile'
+import { trackResumeDownload } from '../lib/analytics'
 
 const navLinks = [
   { label: 'About',          id: 'about' },
@@ -12,93 +15,91 @@ const navLinks = [
   { label: 'Contact',        id: 'contact' },
 ]
 
-export default function Header() {
-  const { hero } = getPortfolioData()
+const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [dark, setDark] = useState(() =>
-    document.documentElement.classList.contains('dark')
-  )
+  const [, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const toggleDark = () => {
-    document.documentElement.classList.toggle('dark')
-    setDark(d => !d)
-  }
-
-  const scrollTo = (id) => {
+  const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
     setMenuOpen(false)
   }
 
   return (
-    <header className={`sticky top-0 z-50 border-b border-[hsl(var(--border))] bg-background/80 backdrop-blur transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
+    <header className={cn('sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60')}>
       <div className="container">
-        <nav className="flex items-center justify-between h-16">
-          <button onClick={() => scrollTo('about')} className="text-base font-semibold hover:text-primary transition-colors">
-            {hero.name}
+        <nav className="flex items-center justify-between py-4">
+          <button
+            className="text-lg font-semibold text-foreground hover:text-primary transition-colors"
+            onClick={() => scrollToSection('about')}
+          >
+            {profile.name}
           </button>
 
-          {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-5 text-sm">
+          <ul className="hidden md:flex items-center gap-6 text-sm">
             {navLinks.map(l => (
               <li key={l.id}>
-                <a href={`#${l.id}`} onClick={e => { e.preventDefault(); scrollTo(l.id) }}
-                  className="hover:text-primary transition-colors">
+                <a className="hover:text-primary transition-colors" href={`#${l.id}`}
+                  onClick={e => { e.preventDefault(); scrollToSection(l.id) }}>
                   {l.label}
                 </a>
               </li>
             ))}
             <li>
-              <a href={hero.cvPath} download={hero.cvFileName}
-                className="btn-outline text-xs px-3 py-1.5">
+              <a
+                href={profile.cvPath}
+                download={profile.cvFileName}
+                onClick={() => trackResumeDownload('Desktop PDF')}
+                className="inline-flex h-9 items-center rounded-md border border-border px-3 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
                 Resume
               </a>
             </li>
-            <li>
-              <button onClick={toggleDark} className="p-2 rounded-lg hover:bg-[hsl(var(--muted))] transition-colors" aria-label="Toggle theme">
-                {dark ? <FaSun size={15} /> : <FaMoon size={15} />}
-              </button>
-            </li>
+            <li><ModeToggle /></li>
           </ul>
 
-          {/* Mobile controls */}
           <div className="md:hidden flex items-center gap-2">
-            <button onClick={toggleDark} className="p-2 rounded-lg hover:bg-[hsl(var(--muted))] transition-colors" aria-label="Toggle theme">
-              {dark ? <FaSun size={15} /> : <FaMoon size={15} />}
-            </button>
-            <button onClick={() => setMenuOpen(o => !o)} className="p-2" aria-label="Toggle menu">
-              {menuOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
+            <ModeToggle />
+            <button className="text-xl" onClick={() => setMenuOpen(o => !o)} aria-label="Toggle menu">
+              {menuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
         </nav>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-[hsl(var(--border))] bg-background">
-          <ul className="container py-4 flex flex-col gap-3 text-sm">
-            {navLinks.map(l => (
-              <li key={l.id}>
-                <a href={`#${l.id}`} onClick={e => { e.preventDefault(); scrollTo(l.id) }}
-                  className="block hover:text-primary transition-colors">
-                  {l.label}
+        <div className="md:hidden border-t border-border bg-background">
+          <div className="container py-4">
+            <ul className="flex flex-col gap-3 text-sm">
+              {navLinks.map(l => (
+                <li key={l.id}>
+                  <a className="block hover:text-primary" href={`#${l.id}`}
+                    onClick={e => { e.preventDefault(); scrollToSection(l.id) }}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={profile.cvPath}
+                  download={profile.cvFileName}
+                  onClick={() => trackResumeDownload('Mobile PDF')}
+                  className="inline-flex h-9 items-center rounded-md border border-border px-3 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  Resume
                 </a>
               </li>
-            ))}
-            <li>
-              <a href={hero.cvPath} download={hero.cvFileName} className="btn-outline text-xs px-3 py-1.5">
-                Resume
-              </a>
-            </li>
-          </ul>
+            </ul>
+          </div>
         </div>
       )}
     </header>
   )
 }
+
+export default Header

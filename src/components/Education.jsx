@@ -1,36 +1,26 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { getPortfolioData } from '../data/portfolioData'
+import { education } from '../data/education'
 
-export default function Education() {
-  const { education } = getPortfolioData()
-
+const Education = () => {
   return (
-    <section id="education" className="section">
+    <section id="education" className="py-16 sm:py-20 lg:py-24">
       <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.5 }}>
-          <h2 className="section-title">Education</h2>
-          <p className="section-subtitle">My academic background.</p>
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Education</h2>
+        </div>
+        <div className="space-y-4">
           {education.map((edu, i) => (
-            <motion.div key={i} className="card flex gap-4"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }}>
-              <span className="text-3xl flex-shrink-0">{edu.icon}</span>
-              <div>
-                <h3 className="font-semibold">{edu.degree}</h3>
-                <p className="text-primary text-sm">{edu.institution}</p>
-                {edu.location && <p className="text-xs text-[hsl(var(--muted-foreground))]">{edu.location}</p>}
-                <p className="text-xs text-[hsl(var(--muted-foreground))] mt-1">{edu.period}</p>
-                {edu.grade && <p className="text-xs text-green-500 mt-1">{edu.grade}</p>}
-              </div>
-            </motion.div>
+            <div key={i} className="rounded-md border border-border bg-card p-5 shadow-sm">
+              <h3 className="text-lg font-semibold">{edu.degree}</h3>
+              <h4 className="text-sm text-muted-foreground">{edu.institution}</h4>
+              <p className="text-xs text-muted-foreground mt-1">{edu.period}</p>
+              {edu.extra && <p className="mt-2"><strong>{edu.extra}</strong></p>}
+            </div>
           ))}
         </div>
       </div>
     </section>
   )
 }
+
+export default Education
