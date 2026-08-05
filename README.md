@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Samir Joshi — Portfolio
 
 Personal portfolio website built with React, Vite, Tailwind CSS, and Framer Motion.
@@ -63,3 +64,7 @@ npm run build
 ## 📬 Contact Form
 
 Get a free Formspree ID at [formspree.io](https://formspree.io) and update `contact.formspreeId` in `portfolioData.js`.
+=======
+# snj605.github.io
+Personal portfolio website showcasing my Java development projects, technical skills, and professional journey.
+>>>>>>> ffb0329edbf341d86781b49d4dbda8a3a91a07ce
