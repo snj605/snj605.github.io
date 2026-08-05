@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './components/theme/theme-provider'
 import App from './App'
@@ -11,12 +11,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>
       <ThemeProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </ThemeProvider>
     </HelmetProvider>
   </React.StrictMode>

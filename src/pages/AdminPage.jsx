@@ -484,7 +484,7 @@ export default function AdminPage() {
             <p className="text-[10px] text-muted-foreground">Full content editor</p>
           </div>
         </div>
-        <a href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">← Back to portfolio</a>
+        <a href="/#/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">← Back to portfolio</a>
       </div>
 
       {/* Tabs */}

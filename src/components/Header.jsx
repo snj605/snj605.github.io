@@ -44,17 +44,35 @@ const Header = () => {
 
   useEffect(() => {
     const observers = []
-    navLinks.forEach(({ id }) => {
-      const el = document.getElementById(id)
-      if (!el) return
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveId(id) },
-        { rootMargin: '-40% 0px -55% 0px' }
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
-    return () => observers.forEach(o => o.disconnect())
+    let mutObs = null
+
+    const attach = () => {
+      observers.forEach(o => o.disconnect())
+      observers.length = 0
+      let allFound = true
+      navLinks.forEach(({ id }) => {
+        const el = document.getElementById(id)
+        if (!el) { allFound = false; return }
+        const obs = new IntersectionObserver(
+          ([entry]) => { if (entry.isIntersecting) setActiveId(id) },
+          { rootMargin: '-30% 0px -60% 0px' }
+        )
+        obs.observe(el)
+        observers.push(obs)
+      })
+      if (allFound && mutObs) { mutObs.disconnect(); mutObs = null }
+    }
+
+    attach()
+
+    // retry until all lazy-loaded sections are in the DOM
+    mutObs = new MutationObserver(attach)
+    mutObs.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      observers.forEach(o => o.disconnect())
+      mutObs?.disconnect()
+    }
   }, [])
 
   const scrollToSection = (id) => {
