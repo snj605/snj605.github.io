@@ -53,13 +53,13 @@ const Contact = () => {
       </div>
 
       <div className="container">
-        <motion.div className="mb-14"
+        <motion.div className="mb-14 text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">Contact Me</h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-10 max-w-4xl">
+        <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
           {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}

@@ -1,19 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { education } from '../data/education'
+import { education as defaultEdu } from '../data/education'
+import { KEYS } from '../lib/store'
 
 const Education = () => {
+  const [data, setData] = useState(() => {
+    try { const v = localStorage.getItem(KEYS.education); return v ? JSON.parse(v) : defaultEdu } catch { return defaultEdu }
+  })
+
+  useEffect(() => {
+    const handler = () => {
+      try { const v = localStorage.getItem(KEYS.education); if (v) setData(JSON.parse(v)) } catch {}
+    }
+    window.addEventListener('pf-updated', handler)
+    return () => window.removeEventListener('pf-updated', handler)
+  }, [])
   return (
     <section id="education" className="py-20 sm:py-24">
       <div className="container">
-        <motion.div className="mb-14"
+        <motion.div className="mb-14 text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">Education</h2>
         </motion.div>
 
-        <div className="space-y-4 max-w-2xl">
-          {education.map((edu, i) => (
+        <div className="space-y-4 max-w-2xl mx-auto">
+          {data.map((edu, i) => (
             <motion.div key={i}
               className="glass glass-hover rounded-2xl p-6 flex gap-4 items-start"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}

@@ -3,7 +3,7 @@ export default {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    container: { center: true, padding: '1rem' },
+    container: { center: true, padding: { DEFAULT: '1.25rem', sm: '1.5rem', lg: '2rem', xl: '3rem', '2xl': '4rem' } },
     extend: {
       fontFamily: { sans: ['Inter', 'sans-serif'] },
       colors: {

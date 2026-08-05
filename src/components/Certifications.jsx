@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactCardFlip from 'react-card-flip'
 import { FaAws, FaGithub } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { certifications } from '../data/certifications'
+import { certifications as defaultCerts } from '../data/certifications'
+import { KEYS } from '../lib/store'
 
 const Certifications = () => {
   const [flipped, setFlipped] = useState({})
+  const [data, setData] = useState(() => {
+    try { const v = localStorage.getItem(KEYS.certifications); return v ? JSON.parse(v) : defaultCerts } catch { return defaultCerts }
+  })
+
+  useEffect(() => {
+    const handler = () => {
+      try { const v = localStorage.getItem(KEYS.certifications); if (v) setData(JSON.parse(v)) } catch {}
+    }
+    window.addEventListener('pf-updated', handler)
+    return () => window.removeEventListener('pf-updated', handler)
+  }, [])
+
   const toggle = (i) => setFlipped(prev => ({ ...prev, [i]: !prev[i] }))
 
   return (
@@ -17,19 +30,19 @@ const Certifications = () => {
       </div>
 
       <div className="container">
-        <motion.div className="mb-4"
+        <motion.div className="mb-4 text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">Certifications</h2>
         </motion.div>
-        <motion.p className="text-muted-foreground text-sm mb-12"
+        <motion.p className="text-muted-foreground text-sm mb-12 text-center"
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
           viewport={{ once: true }} transition={{ delay: 0.2 }}>
           Click a card to flip and see the badge.
         </motion.p>
 
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {certifications.map((cert, i) => (
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 max-w-5xl mx-auto">
+          {data.map((cert, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}>

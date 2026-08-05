@@ -5,7 +5,7 @@ import About from './components/About'
 import Footer from './components/Footer'
 import { SkeletonGrid } from './components/ui/skeleton'
 import { initGA, trackPageView } from './lib/analytics'
-import { profile } from './data/profile'
+import { getPortfolioData } from './lib/store'
 
 const Experience     = React.lazy(() => import('./components/Experience'))
 const Blog           = React.lazy(() => import('./components/Blog'))
@@ -20,8 +20,7 @@ function ScrollProgress() {
   useEffect(() => {
     const onScroll = () => {
       const el = document.documentElement
-      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100
-      setWidth(pct)
+      setWidth((el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -30,6 +29,8 @@ function ScrollProgress() {
 }
 
 function App() {
+  const { profile } = getPortfolioData()
+
   useEffect(() => {
     initGA()
     trackPageView()
@@ -40,11 +41,9 @@ function App() {
       <ScrollProgress />
       <Helmet>
         <title>{profile.name} — Full Stack Developer | React, Node.js</title>
-        <meta name="description" content={`${profile.name} — Full Stack Developer building modern web applications with React, Node.js, and various technologies.`} />
-        <meta name="keywords" content={`${profile.name}, Full Stack Developer, React Developer, Node.js, Web Developer, Portfolio`} />
+        <meta name="description" content={`${profile.name} — Full Stack Developer building modern web applications.`} />
         <meta name="author" content={profile.name} />
         <meta property="og:title" content={`${profile.name} — Full Stack Developer`} />
-        <meta property="og:description" content="Full Stack Developer specializing in React, Node.js, and modern web technologies." />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow" />
       </Helmet>

@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { skills } from '../data/skills'
+import { skills as defaultSkills } from '../data/skills'
+import { KEYS } from '../lib/store'
 
 const Skills = () => {
+  const [data, setData] = useState(() => {
+    try { const v = localStorage.getItem(KEYS.skills); return v ? JSON.parse(v) : defaultSkills } catch { return defaultSkills }
+  })
+
+  useEffect(() => {
+    const handler = () => {
+      try { const v = localStorage.getItem(KEYS.skills); if (v) setData(JSON.parse(v)) } catch {}
+    }
+    window.addEventListener('pf-updated', handler)
+    return () => window.removeEventListener('pf-updated', handler)
+  }, [])
   return (
     <section id="skills" className="py-20 sm:py-24 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -15,14 +27,14 @@ const Skills = () => {
       </div>
 
       <div className="container">
-        <motion.div className="mb-14"
+        <motion.div className="mb-14 text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <h2 className="section-heading">Technical Skills</h2>
         </motion.div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          {skills.map((cat, i) => (
+        <div className="grid gap-5 md:grid-cols-2 max-w-5xl mx-auto">
+          {data.map((cat, i) => (
             <motion.div key={i}
               className="glass glass-hover rounded-2xl p-6 noise relative"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}

@@ -3,10 +3,11 @@ import { FaLinkedin, FaGithub, FaEnvelope, FaInstagram } from 'react-icons/fa'
 import { BsTwitterX } from 'react-icons/bs'
 import { ReactTyped } from 'react-typed'
 import { motion } from 'framer-motion'
-import { profile } from '../data/profile'
+import { profile as defaultProfile } from '../data/profile'
 import { trackGithubClick, trackLinkedinClick } from '../lib/analytics'
+import { getResume, KEYS } from '../lib/store'
 
-const socials = (p) => [
+const makeSocials = (p) => [
   { href: `mailto:${p.social.email}`,  icon: <FaEnvelope />,  label: 'Email',     color: 'from-rose-500 to-pink-500',    onClick: null },
   { href: p.social.linkedin,           icon: <FaLinkedin />,  label: 'LinkedIn',  color: 'from-blue-500 to-blue-600',    onClick: () => trackLinkedinClick('About') },
   { href: p.social.github,             icon: <FaGithub />,    label: 'GitHub',    color: 'from-gray-600 to-gray-800',    onClick: () => trackGithubClick('About') },
@@ -15,8 +16,24 @@ const socials = (p) => [
 ].filter(s => s.href)
 
 const About = () => {
+  const [profile, setProfile] = React.useState(() => {
+    try { const v = localStorage.getItem(KEYS.profile); return v ? JSON.parse(v) : defaultProfile } catch { return defaultProfile }
+  })
+  const [resumeBlob, setResumeBlob] = React.useState(() => getResume())
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.detail?.key === KEYS.profile || e.detail?.key === 'all') {
+        try { const v = localStorage.getItem(KEYS.profile); if (v) setProfile(JSON.parse(v)) } catch {}
+      }
+      if (e.detail?.key === KEYS.resume || e.detail?.key === 'all') setResumeBlob(getResume())
+    }
+    window.addEventListener('pf-updated', handler)
+    return () => window.removeEventListener('pf-updated', handler)
+  }, [])
+
   return (
-    <section id="about" className="container py-20 sm:py-28 relative overflow-hidden">
+    <section id="about" className="w-full py-16 sm:py-24 relative overflow-hidden">
       {/* Background orbs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <motion.div className="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-primary/10 blur-3xl"
@@ -30,10 +47,11 @@ const About = () => {
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
       </div>
 
-      <div className="flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-20">
+      <div className="container">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-10 lg:gap-16 max-w-6xl mx-auto">
 
         {/* ── Text side ── */}
-        <motion.div className="flex-1 space-y-5"
+        <motion.div className="flex-1 min-w-0 max-w-xl space-y-5"
           initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.7 }}>
 
@@ -81,7 +99,9 @@ const About = () => {
               className="btn-glow inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">
               Get In Touch →
             </a>
-            <a href={profile.cvPath} download={profile.cvFileName}
+            <a
+              href={resumeBlob || profile.cvPath}
+              download={profile.cvFileName || 'Resume.pdf'}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl glass border border-border/60 text-sm font-medium hover:border-primary/40 transition-all duration-200">
               Download CV ↓
             </a>
@@ -91,7 +111,7 @@ const About = () => {
           <motion.div className="flex items-center gap-2 pt-1"
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
             viewport={{ once: true }} transition={{ delay: 0.6 }}>
-            {socials(profile).map(s => (
+            {makeSocials(profile).map(s => (
               <motion.a key={s.label} href={s.href}
                 target={s.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer" aria-label={s.label}
@@ -126,7 +146,7 @@ const About = () => {
               animate={{ y: [-4,4,-4] }} transition={{ duration: 3, repeat: Infinity }} />
 
             {/* Photo card */}
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl glass border border-white/20 overflow-hidden shadow-glass-dark">
+            <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-2xl glass border border-white/20 overflow-hidden shadow-glass-dark">
               {profile.image ? (
                 <motion.img src={profile.image} alt={profile.name}
                   className="w-full h-full object-cover"
@@ -158,6 +178,7 @@ const About = () => {
             ))}
           </motion.div>
         </motion.div>
+      </div>
       </div>
     </section>
   )
