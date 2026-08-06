@@ -166,11 +166,11 @@ const About = () => {
           <motion.div className="flex gap-3"
             initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ delay: 0.5 }}>
-            {[
-              { value: '2+', label: 'Years Exp.' },
+            {(profile.stats || [
+              { value: '2+',  label: 'Years Exp.' },
               { value: '10+', label: 'Projects' },
-              { value: '5+', label: 'Technologies' },
-            ].map(stat => (
+              { value: '5+',  label: 'Technologies' },
+            ]).map(stat => (
               <div key={stat.label} className="glass border border-border/50 rounded-xl px-4 py-2.5 text-center min-w-[72px]">
                 <div className="text-lg font-black gradient-text">{stat.value}</div>
                 <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>

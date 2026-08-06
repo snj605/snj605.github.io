@@ -4,8 +4,11 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './components/theme/theme-provider'
 import App from './App'
-import AdminPage from './pages/AdminPage'
 import './styles/index.css'
+
+const AdminPage = import.meta.env.DEV
+  ? React.lazy(() => import('./pages/AdminPage'))
+  : null
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -14,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <HashRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/admin" element={<AdminPage />} />
+            {import.meta.env.DEV && AdminPage && (
+              <Route path="/admin" element={<React.Suspense fallback={null}><AdminPage /></React.Suspense>} />
+            )}
           </Routes>
         </HashRouter>
       </ThemeProvider>

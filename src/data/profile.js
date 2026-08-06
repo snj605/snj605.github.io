@@ -15,10 +15,15 @@ export const profile = {
   cvPath: '/resume.pdf',
   cvFileName: 'Samir_Joshi_Resume.pdf',
   social: {
-    email: 'samir.joshi@example.com',
-    linkedin: 'https://linkedin.com/in/samir-joshi',
+    email: 'samirjoshi506@gmail.com',
+    linkedin: 'https://linkedin.com/in/samir-joshi-a6965b1a5/',
     github: 'https://github.com/snj605',
-    x: '',
-    instagram: '',
+    x: 'https://x.com/snjoshi506',
+    instagram: 'https://www.instagram.com/snjoshi._/',
   },
+  stats: [
+    { value: '2+',  label: 'Years Exp.' },
+    { value: '10+', label: 'Projects' },
+    { value: '5+',  label: 'Technologies' },
+  ],
 }

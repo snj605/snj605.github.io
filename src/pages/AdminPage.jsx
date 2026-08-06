@@ -444,6 +444,24 @@ export default function AdminPage() {
     }
   }
 
+  const handleExport = () => {
+    const data = {
+      profile: profileData,
+      experience: expData,
+      projects: projData,
+      skills: skillsData,
+      education: eduData,
+      certifications: certsData,
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'portfolio-data.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const handleReset = () => { resetAll(); window.location.reload() }
 
   if (!authed) {
@@ -465,7 +483,7 @@ export default function AdminPage() {
           <button onClick={handleLogin} className="w-full py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity">
             Unlock
           </button>
-          <p className="text-[10px] text-muted-foreground">Default: admin123</p>
+
         </div>
       </div>
     )
@@ -485,6 +503,9 @@ export default function AdminPage() {
           </div>
         </div>
         <a href="/#/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">← Back to portfolio</a>
+      </div>
+      <div className="px-6 py-2 bg-amber-500/10 border-b border-amber-500/20">
+        <p className="text-[11px] text-amber-400">⚠ Changes are saved to this browser only. Use <strong>Export JSON</strong> → update data files → redeploy to publish changes for all visitors.</p>
       </div>
 
       {/* Tabs */}
@@ -512,12 +533,18 @@ export default function AdminPage() {
         <button onClick={handleReset} className="text-xs text-muted-foreground hover:text-red-400 transition-colors">
           Reset all to defaults
         </button>
-        <motion.button onClick={handleSave}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
-          whileTap={{ scale: 0.97 }}>
-          <FaSave size={12} />
-          {saved ? '✓ Saved!' : 'Save All Changes'}
-        </motion.button>
+        <div className="flex items-center gap-2">
+          <button onClick={handleExport}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border/60 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-border transition-all">
+            ↓ Export JSON
+          </button>
+          <motion.button onClick={handleSave}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+            whileTap={{ scale: 0.97 }}>
+            <FaSave size={12} />
+            {saved ? '✓ Saved!' : 'Save All Changes'}
+          </motion.button>
+        </div>
       </div>
     </div>
   )
