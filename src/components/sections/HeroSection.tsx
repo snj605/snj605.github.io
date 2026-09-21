@@ -1,15 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import dynamic from 'next/dynamic'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { usePortfolioData } from '@/lib/portfolioStore'
 import { Typewriter } from '@/components/ui/Typewriter'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import { ResumeModal } from '@/components/ui/ResumeModal'
-
-// Lazy load 3D canvas — SSR disabled
-const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+import Scene from '@/components/3d/Scene'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 25 },
@@ -26,7 +23,12 @@ const fadeUp = {
 
 export default function HeroSection() {
   const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { profile, resumePdfUrl, resumePdfName } = usePortfolioData()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <section
@@ -35,7 +37,7 @@ export default function HeroSection() {
     >
       {/* ── 3D Canvas Hero Background ── */}
       <div className="absolute inset-0" style={{ zIndex: 1 }}>
-        <Scene />
+        {mounted && <Scene />}
       </div>
 
       {/* ── Adaptive Gradient Overlay for Text Readability (Light & Dark) ── */}
