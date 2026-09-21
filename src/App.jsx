@@ -40,10 +40,10 @@ function App() {
     <div className="min-h-screen bg-background text-foreground">
       <ScrollProgress />
       <Helmet>
-        <title>{profile.name} — Full Stack Developer | React, Node.js</title>
-        <meta name="description" content={`${profile.name} — Full Stack Developer building modern web applications.`} />
+        <title>{profile.name} — Java Backend Software Engineer | Spring Boot & Microservices</title>
+        <meta name="description" content={`${profile.name} — Java Backend Software Engineer specializing in Spring Boot, Apache Kafka, and Microservices.`} />
         <meta name="author" content={profile.name} />
-        <meta property="og:title" content={`${profile.name} — Full Stack Developer`} />
+        <meta property="og:title" content={`${profile.name} — Java Backend Software Engineer`} />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow" />
       </Helmet>

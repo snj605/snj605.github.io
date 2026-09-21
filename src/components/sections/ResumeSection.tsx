@@ -31,7 +31,7 @@ export default function ResumeSection() {
                 Curriculum Vitae & Verified Credentials
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Directly inspect the authenticated resume of <span className="text-white font-semibold">{profile.name}</span>. Featuring {experience.length} enterprise/academic appointments, Master of Technology thesis research in metaheuristic cloud load balancing, and verified production tech stacks.
+                Directly inspect the authenticated resume of <span className="font-semibold text-slate-100">{profile.name}</span>. Featuring {experience.length} enterprise/academic appointments, Master of Technology thesis research in metaheuristic cloud load balancing, and verified production tech stacks.
               </p>
 
               {/* Quick highlights */}

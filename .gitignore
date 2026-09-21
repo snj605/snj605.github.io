@@ -11,6 +11,9 @@ Thumbs.db
 # Next.js build outputs
 .next/
 out/
+*.tsbuildinfo
 
 # Admin portal (Local development only - NEVER committed or pushed to GitHub)
 src/app/admin/
+src/components/admin/
+src/pages/AdminPage.jsx
