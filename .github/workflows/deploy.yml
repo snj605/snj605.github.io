@@ -6,13 +6,21 @@ on:
       - main
   workflow_dispatch:
 
-# Required for GITHUB_TOKEN to deploy to Pages
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,9 +37,19 @@ jobs:
       - name: Build (Next.js static export)
         run: npm run build
 
-      - name: Deploy to GitHub Pages (gh-pages branch)
+      - name: Deploy to gh-pages branch (Branch deployment mode)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: out       # Next.js static export outputs to /out
+          folder: out
           branch: gh-pages
           clean: true
+
+      - name: Upload Pages Artifact (GitHub Actions deployment mode)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
