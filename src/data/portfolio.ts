@@ -76,7 +76,7 @@ export const portfolioData = {
     location: 'Rajkot, Gujarat, India',
     linkedin: 'https://linkedin.com/in/samir-joshi-a6965b1a5',
     github: 'https://github.com/snj605',
-    avatar: '/samir_dp.jpg',
+    avatar: '/samir_dp.png',
     stats: [
       { value: '4–6', label: 'Microservices Architected', detail: 'Spring Boot 3 SaaS in production' },
       { value: '50+', label: 'RESTful Endpoints', detail: 'Spring Security + JWT + RBAC' },
