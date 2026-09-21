@@ -15,12 +15,12 @@ const Blog = () => {
         <article className="prose prose-invert max-w-none rounded-2xl border border-border bg-card p-6 sm:p-10 shadow-lg relative overflow-hidden">
           <header className="mb-8 pb-6 border-b border-border/50">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground mb-4">
-              Who is {profile.name}? The Journey of a Full Stack Developer
+              Who is {profile.name}? The Journey of a Java Backend Software Engineer
             </h1>
             <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
               <span><strong>Author:</strong> {profile.name}</span>
               <span>•</span>
-              <span><strong>Role:</strong> Full Stack Developer</span>
+              <span><strong>Role:</strong> Java Backend Software Engineer</span>
             </div>
           </header>
 
@@ -28,19 +28,20 @@ const Blog = () => {
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold text-foreground">Who is {profile.name}?</h2>
               <p>
-                <strong>{profile.name}</strong> is a professional <strong>Full Stack Developer</strong> specializing in
-                React, Node.js, and modern web technologies. With hands-on experience building production-grade applications,
-                he delivers clean, maintainable code and responsive user interfaces backed by scalable APIs.
+                <strong>{profile.name}</strong> is a <strong>Java Backend Software Engineer</strong> specializing in
+                Spring Boot, Apache Kafka, Microservices, and event-driven distributed architectures. With enterprise production
+                experience designing high-throughput IoT telemetry systems and university-level instruction in Advanced Java,
+                he engineers clean, fault-tolerant, and performant backend services.
               </p>
             </section>
 
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold text-foreground">Technical Stack</h2>
               <ul className="list-disc list-inside space-y-1 pl-2 text-sm sm:text-base">
-                <li><strong>Frontend:</strong> React.js, TypeScript, Tailwind CSS, HTML5, CSS3.</li>
-                <li><strong>Backend:</strong> Node.js, Express.js, RESTful APIs.</li>
-                <li><strong>Databases:</strong> MongoDB, PostgreSQL, MySQL.</li>
-                <li><strong>Tools:</strong> Git, Docker, VS Code, Postman.</li>
+                <li><strong>Backend:</strong> Java, Kotlin, Spring Boot, Spring Data JPA, Spring Security, Hibernate, RESTful APIs, Microservices.</li>
+                <li><strong>Messaging & Event-Driven:</strong> Apache Kafka (Producers/Consumers), Event-Driven Architecture.</li>
+                <li><strong>Databases:</strong> PostgreSQL, MySQL, MongoDB, Firebase, Query Indexing & Optimization.</li>
+                <li><strong>Cloud & DevOps:</strong> Azure, AWS, GCP, Docker, Git, CI/CD Fundamentals, CloudSim.</li>
               </ul>
             </section>
 

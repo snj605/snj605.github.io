@@ -7,3 +7,10 @@ dist
 *.local
 .DS_Store
 Thumbs.db
+
+# Next.js build outputs
+.next/
+out/
+
+# Admin portal (Local development only - NEVER committed or pushed to GitHub)
+src/app/admin/

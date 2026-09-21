@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaPhone } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -7,6 +7,7 @@ import { profile } from '../data/profile'
 import { trackContactSubmit, trackGithubClick, trackLinkedinClick } from '../lib/analytics'
 
 const contactLinks = (p) => [
+  { icon: <FaPhone className="text-primary" />,   label: p.social.phone ? `+91 ${p.social.phone.replace('+91','').trim()}` : null, href: p.social.phone ? `tel:${p.social.phone}` : null, onClick: null },
   { icon: <FaEnvelope className="text-primary" />, label: p.social.email, href: `mailto:${p.social.email}`, onClick: null },
   { icon: <FaLinkedin className="text-primary" />, label: p.social.linkedin?.replace('https://', ''), href: p.social.linkedin, onClick: () => trackLinkedinClick('Contact') },
   { icon: <FaGithub className="text-primary" />,   label: p.social.github?.replace('https://', ''),   href: p.social.github,   onClick: () => trackGithubClick('Contact') },

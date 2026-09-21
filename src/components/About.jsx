@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaLinkedin, FaGithub, FaEnvelope, FaInstagram } from 'react-icons/fa'
+import { FaLinkedin, FaGithub, FaEnvelope, FaInstagram, FaPhone } from 'react-icons/fa'
 import { BsTwitterX } from 'react-icons/bs'
 import { ReactTyped } from 'react-typed'
 import { motion } from 'framer-motion'
@@ -9,6 +9,7 @@ import { getResume, KEYS } from '../lib/store'
 
 const makeSocials = (p) => [
   { href: `mailto:${p.social.email}`,  icon: <FaEnvelope />,  label: 'Email',     color: 'from-rose-500 to-pink-500',    onClick: null },
+  { href: p.social.phone ? `tel:${p.social.phone}` : null, icon: <FaPhone />, label: 'Phone', color: 'from-emerald-500 to-teal-500', onClick: null },
   { href: p.social.linkedin,           icon: <FaLinkedin />,  label: 'LinkedIn',  color: 'from-blue-500 to-blue-600',    onClick: () => trackLinkedinClick('About') },
   { href: p.social.github,             icon: <FaGithub />,    label: 'GitHub',    color: 'from-gray-600 to-gray-800',    onClick: () => trackGithubClick('About') },
   { href: p.social.x,                  icon: <BsTwitterX />,  label: 'X',         color: 'from-sky-400 to-sky-600',      onClick: null },

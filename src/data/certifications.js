@@ -4,18 +4,19 @@
 export const certifications = [
   {
     icon: 'badge',
-    name: 'Web Development Bootcamp',
-    issuer: 'Online Learning Platform',
-    period: '2023',
+    name: 'Artificial Intelligence',
+    issuer: 'Great Learning',
+    period: 'Feb 2025 – Apr 2025',
     link: '#',
     image: '',
   },
   {
     icon: 'badge',
-    name: 'React Developer Certification',
-    issuer: 'Course Provider',
-    period: '2023',
+    name: 'Spring Boot & Microservices Specialist',
+    issuer: 'Enterprise Java Architecture Program',
+    period: '2024',
     link: '#',
     image: '',
   },
 ]
+
