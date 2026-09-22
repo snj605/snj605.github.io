@@ -5,33 +5,69 @@ export default {
   theme: {
     container: { center: true, padding: { DEFAULT: '1.25rem', sm: '1.5rem', lg: '2rem', xl: '3rem', '2xl': '4rem' } },
     extend: {
-      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        serif: ['"Space Grotesk"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
       colors: {
-        border:      'hsl(var(--border))',
-        input:       'hsl(var(--input))',
-        ring:        'hsl(var(--ring))',
-        background:  'hsl(var(--background))',
-        foreground:  'hsl(var(--foreground))',
-        primary:     { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
-        secondary:   { DEFAULT: 'hsl(var(--secondary))', foreground: 'hsl(var(--secondary-foreground))' },
-        muted:       { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
-        accent:      { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
-        destructive: { DEFAULT: 'hsl(var(--destructive))', foreground: 'hsl(var(--destructive-foreground))' },
-        card:        { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+        terracotta: {
+          DEFAULT: '#5C4033',
+          hover: '#4A3328',
+          light: '#E6C594',
+        },
+        stone: {
+          taupe: '#B8AA94',
+          sand: '#E7DDCD',
+        },
+        cream: {
+          canvas: '#F7F0E6',
+          card: '#EFE6D8',
+        },
+        ink: {
+          brown: '#2B231D',
+          muted: '#6B5F56',
+        },
+        warm: {
+          border: '#E2D6C5',
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-        xl: 'calc(var(--radius) + 4px)',
-        '2xl': 'calc(var(--radius) + 8px)',
-      },
-      backdropBlur: { xs: '2px' },
-      boxShadow: {
-        glass:  '0 8px 32px rgba(31,38,135,0.08)',
-        'glass-dark': '0 8px 32px rgba(0,0,0,0.35)',
-        glow:   '0 0 20px hsl(var(--primary)/0.35)',
-        'glow-lg': '0 0 40px hsl(var(--primary)/0.4)',
+        lg: '0.5rem',
+        md: 'calc(0.5rem - 2px)',
+        sm: 'calc(0.5rem - 4px)',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
       },
       keyframes: {
         'accordion-down': { from: { height: 0 }, to: { height: 'var(--radix-accordion-content-height)' } },

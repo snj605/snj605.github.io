@@ -43,9 +43,9 @@ export function BentoCard({ children, className, colSpan = 1, rowSpan = 1 }: Ben
   return (
     <div
       className={cn(
-        'glass-panel rounded-2xl p-5 flex flex-col gap-3 overflow-hidden relative',
+        'terracotta-card rounded-2xl p-5 flex flex-col gap-3 overflow-hidden relative shadow-sm',
         'transition-all duration-300 cursor-default',
-        'hover:border-cyan-400/25 hover:shadow-[0_0_40px_-10px_rgba(56,189,248,0.3)]',
+        'hover:border-primary/40 hover:shadow-md',
         colClass,
         rowClass,
         className

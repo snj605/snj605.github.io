@@ -26,7 +26,7 @@ export function FloatingDock({ items, className }: FloatingDockProps) {
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
         'flex items-end justify-center gap-3 px-4 pb-3 pt-4',
-        'rounded-2xl glass-panel antigravity-glow',
+        'rounded-2xl bg-card border border-border shadow-sm',
         className
       )}
       initial={{ y: 20, opacity: 0 }}
@@ -82,7 +82,7 @@ function DockIcon({
           initial={{ opacity: 0, y: 4, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 4, scale: 0.9 }}
-          className="absolute -top-9 px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap glass-panel text-cyan-300 border border-cyan-400/20"
+          className="absolute -top-9 px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap bg-card text-primary border border-primary/20 shadow-sm"
         >
           {item.label}
         </motion.span>
@@ -95,7 +95,7 @@ function DockIcon({
         style={{ width: size, height: size }}
         onMouseEnter={() => setActiveLabel(item.label)}
         onMouseLeave={() => setActiveLabel(null)}
-        className="flex items-center justify-center rounded-xl glass-panel glass-panel-hover text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+        className="flex items-center justify-center rounded-xl bg-muted border border-border text-muted-foreground hover:text-primary transition-colors cursor-pointer"
         whileTap={{ scale: 0.9 }}
       >
         <span className="text-lg">{item.icon}</span>

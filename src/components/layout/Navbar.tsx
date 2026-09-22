@@ -66,8 +66,8 @@ export default function Navbar() {
       {/* Permanent Fixed Header (Visible in every section, never scrolls away) */}
       <header className="fixed top-0 left-0 right-0 z-40 px-4 pt-3 transition-all duration-300">
         <nav
-          className={`mx-auto max-w-5xl glass-panel border border-[var(--border)] rounded-2xl px-4 sm:px-6 py-2.5 flex items-center justify-between transition-shadow duration-300 ${
-            isScrolled ? 'shadow-2xl shadow-cyan-500/5 bg-[var(--surface)]/90 backdrop-blur-xl' : 'shadow-lg'
+          className={`mx-auto max-w-5xl bg-card border border-border rounded-2xl px-4 sm:px-6 py-2.5 flex items-center justify-between transition-shadow duration-300 ${
+            isScrolled ? 'shadow-md' : 'shadow-sm'
           }`}
         >
           {/* Logo & Avatar */}
@@ -76,7 +76,7 @@ export default function Navbar() {
             onClick={(e) => handleNavClick(e, '#about')}
             className="flex items-center gap-2.5 group hover:opacity-90 transition-opacity"
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/40 relative shrink-0">
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-border relative shrink-0">
               <img
                 src={profile.avatar}
                 alt={profile.name}
@@ -84,10 +84,10 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-black tracking-tight text-gradient-cyan">
+              <span className="text-sm font-display font-bold tracking-tight text-foreground">
                 {profile.name}
               </span>
-              <span className="text-[10px] text-[var(--text-muted)] font-mono hidden sm:inline">
+              <span className="text-[10px] text-muted-foreground font-mono hidden sm:inline">
                 Backend Engineer
               </span>
             </div>
@@ -103,7 +103,7 @@ export default function Navbar() {
                     href={href}
                     onClick={(e) => handleNavClick(e, href)}
                     className={`relative px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 ${
-                      isActive ? 'text-cyan-400' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {isActive && (
@@ -111,8 +111,8 @@ export default function Navbar() {
                         layoutId="active-nav"
                         className="absolute inset-0 rounded-lg"
                         style={{
-                          background: 'rgba(56,189,248,0.12)',
-                          border: '1px solid rgba(56,189,248,0.25)',
+                          background: 'hsl(var(--secondary) / 0.2)',
+                          border: '1px solid hsl(var(--secondary) / 0.3)',
                         }}
                         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                       />
@@ -131,7 +131,7 @@ export default function Navbar() {
               <button
                 onClick={toggle}
                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-                className="p-2 rounded-xl glass-panel glass-panel-hover text-[var(--text-primary)] hover:text-amber-400 border border-[var(--border)] transition-all duration-300 flex items-center justify-center shadow-sm"
+                className="p-2 rounded-xl bg-card text-foreground hover:text-primary border border-border transition-all duration-300 flex items-center justify-center shadow-sm"
                 title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               >
                 {theme === 'dark' ? (
@@ -149,11 +149,7 @@ export default function Navbar() {
             {/* Resume Action Pill */}
             <button
               onClick={() => setIsResumeOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white btn-white-text transition-all duration-200 hover:scale-105 shadow-sm"
-              style={{
-                background: 'linear-gradient(135deg, #0ea5e9, #6366f1)',
-                boxShadow: '0 0 16px -3px rgba(14, 165, 233, 0.45)',
-              }}
+              className="terracotta-btn-primary inline-flex items-center gap-1.5"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

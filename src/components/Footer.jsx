@@ -17,17 +17,17 @@ const Footer = () => {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <footer className="mt-16 border-t border-border/50 bg-background/80 backdrop-blur">
+    <footer className="mt-16 border-t border-border bg-background">
       <div className="container py-12">
         <div className="flex flex-col md:flex-row gap-10 justify-between">
 
           {/* Brand */}
           <div className="space-y-3 max-w-xs">
             <div className="flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-sm font-black shadow-glow">
+              <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-sm font-display font-bold shadow-sm">
                 {profile.name.charAt(0)}
               </span>
-              <span className="font-bold text-base gradient-text-static">{profile.name}</span>
+              <span className="font-display font-bold text-base text-foreground">{profile.name}</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Full Stack Developer passionate about building innovative, scalable, and high-performance web solutions.
@@ -38,7 +38,7 @@ const Footer = () => {
                 <motion.a key={s.label} href={s.href}
                   target={s.href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noopener noreferrer" aria-label={s.label} onClick={s.onClick}
-                  className="p-2 rounded-lg glass border border-border/50 text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-200"
+                  className="p-2 rounded-lg bg-secondary/10 border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-200"
                   whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.93 }}>
                   {s.icon}
                 </motion.a>
@@ -66,7 +66,7 @@ const Footer = () => {
             <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Let's work together</h4>
             <p className="text-sm text-muted-foreground">Open to new opportunities and collaborations.</p>
             <a href={`mailto:${profile.social.email}`}
-              className="btn-glow inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold">
+              className="terracotta-btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold">
               <FaEnvelope size={13} /> Say Hello
             </a>
           </div>

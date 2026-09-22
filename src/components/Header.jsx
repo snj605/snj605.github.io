@@ -90,7 +90,7 @@ const Header = () => {
   return (
     <header className={cn(
       'sticky top-0 z-50 transition-all duration-300',
-      scrolled ? 'glass border-b border-white/10 shadow-lg' : 'bg-background/80 backdrop-blur border-b border-border/50'
+      scrolled ? 'bg-background/95 backdrop-blur-sm border-b border-border shadow-sm' : 'bg-background/80 backdrop-blur-sm border-b border-transparent'
     )}>
       <div className="container">
         <nav className="flex items-center justify-between py-3">
@@ -99,7 +99,7 @@ const Header = () => {
             onClick={() => scrollToSection('about')}
             className="group flex items-center gap-2 text-base font-bold tracking-tight hover:text-primary transition-colors duration-200 shrink-0"
           >
-            <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-xs font-black shadow-glow">
+            <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-xs font-display font-bold shadow-sm">
               {profile.name.charAt(0)}
             </span>
             <span className="hidden sm:block">{profile.name}</span>
@@ -129,7 +129,7 @@ const Header = () => {
                 href={resumeBlob || profile.cvPath}
                 download={profile.cvFileName}
                 onClick={() => trackResumeDownload('Desktop PDF')}
-                className="btn-glow inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity whitespace-nowrap"
+                className="terracotta-btn-primary inline-flex h-8 items-center gap-1.5 rounded-lg px-4 text-xs font-semibold whitespace-nowrap"
               >
                 Resume ↓
               </a>
@@ -153,7 +153,7 @@ const Header = () => {
 
       {/* Mobile / tablet menu */}
       {menuOpen && (
-        <div className="lg:hidden glass border-t border-white/10">
+        <div className="lg:hidden bg-background border-t border-border shadow-md">
           <div className="container py-3">
             <ul className="flex flex-col gap-0.5 text-sm">
               {navLinks.map(l => (
@@ -176,7 +176,7 @@ const Header = () => {
                   href={profile.cvPath}
                   download={profile.cvFileName}
                   onClick={() => { trackResumeDownload('Mobile PDF'); setMenuOpen(false) }}
-                  className="btn-glow flex items-center justify-center gap-1.5 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground"
+                  className="terracotta-btn-primary flex items-center justify-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold w-full"
                 >
                   Download Resume ↓
                 </a>

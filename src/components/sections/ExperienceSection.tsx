@@ -25,10 +25,10 @@ export default function ExperienceSection() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-500">
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-secondary">
             Work Experience
           </span>
-          <h2 className="mt-3 text-4xl sm:text-5xl font-black text-gradient">
+          <h2 className="mt-3 text-4xl sm:text-5xl font-display font-bold text-foreground">
             Engineering Career
           </h2>
           <p className="mt-3 text-[var(--text-secondary)] max-w-xl">
@@ -50,25 +50,25 @@ export default function ExperienceSection() {
                 transition={{ delay: i * 0.1 }}
                 className={`relative text-left px-4 py-4 rounded-xl border transition-all duration-300 ${
                   safeActive === i
-                    ? 'glass-panel border-cyan-400/40 shadow-[0_0_20px_-5px_rgba(56,189,248,0.25)]'
-                    : 'border-[var(--border)] hover:border-cyan-400/30 bg-slate-500/5 hover:bg-slate-500/10'
+                    ? 'terracotta-card border-primary shadow-sm'
+                    : 'border-transparent hover:border-border bg-transparent hover:bg-card'
                 }`}
               >
                 {safeActive === i && (
                   <motion.div
                     layoutId="active-exp-indicator"
-                    className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-gradient-to-b from-cyan-400 to-indigo-500"
+                    className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl bg-primary"
                   />
                 )}
                 <div className="flex items-start gap-3 pl-2">
                   <span
                     className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
-                      exp.current ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-slate-500'
+                      exp.current ? 'bg-primary shadow-sm' : 'bg-muted'
                     }`}
                   />
                   <div>
                     <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">{exp.role}</p>
-                    <p className="text-xs text-cyan-500 font-medium mt-0.5">{exp.company}</p>
+                    <p className="text-xs text-primary font-medium mt-0.5">{exp.company}</p>
                     <p className="text-xs text-[var(--text-muted)] mt-1 font-mono">{exp.period}</p>
                   </div>
                 </div>
@@ -84,19 +84,19 @@ export default function ExperienceSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.4, ease: "easeOut" as const }}
               >
                 <Spotlight className="h-full rounded-2xl">
                   <Card3D className="h-full">
-                    <div className="glass-panel rounded-2xl p-7 h-full flex flex-col gap-5 shadow-lg">
+                    <div className="terracotta-card p-7 h-full flex flex-col gap-5 shadow-sm">
                       {/* Header */}
                       <div>
                         <div className="flex items-start justify-between gap-4 flex-wrap">
                           <div>
-                            <h3 className="text-xl font-bold text-gradient">
+                            <h3 className="text-xl font-display font-bold text-foreground">
                               {currentExp.role}
                             </h3>
-                            <p className="text-cyan-500 font-semibold mt-1">
+                            <p className="text-primary font-semibold mt-1">
                               {currentExp.company}
                               {currentExp.type && (
                                 <span className="ml-2 text-xs text-[var(--text-muted)] font-normal">
@@ -125,7 +125,7 @@ export default function ExperienceSection() {
                               key={i}
                               className="px-3.5 py-2.5 rounded-xl border border-[var(--border)] bg-slate-500/5 flex items-center gap-2.5"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 flex-shrink-0" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                               <span className="text-xs font-medium text-[var(--text-primary)]">{metric}</span>
                             </div>
                           ))}
@@ -134,13 +134,13 @@ export default function ExperienceSection() {
 
                       {/* Responsibilities */}
                       <div className="space-y-2.5 pt-1">
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-cyan-500">
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-primary">
                           Key Deliverables & Architecture
                         </p>
                         <ul className="space-y-2">
                           {currentExp.bullets.map((bullet, i) => (
                             <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
-                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
+                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/70 flex-shrink-0" />
                               {bullet}
                             </li>
                           ))}

@@ -27,10 +27,9 @@ export function SkillsTicker() {
         {items.map((skill, i) => (
           <span
             key={i}
-            className="mx-4 px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap glass-panel"
+            className="mx-4 px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap bg-card border border-border"
             style={{
-              color: i % 4 === 0 ? '#38bdf8' : i % 4 === 1 ? '#818cf8' : i % 4 === 2 ? '#c084fc' : '#94a3b8',
-              border: '1px solid var(--border)',
+              color: i % 4 === 0 ? 'hsl(var(--primary))' : i % 4 === 1 ? 'hsl(var(--secondary))' : i % 4 === 2 ? 'hsl(var(--accent))' : 'hsl(var(--muted-foreground))',
             }}
           >
             {skill}

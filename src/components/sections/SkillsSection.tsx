@@ -24,10 +24,10 @@ export default function SkillsSection() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <span className="text-xs font-bold uppercase tracking-[0.3em] text-violet-500">
+          <span className="text-xs font-bold uppercase tracking-[0.3em] text-secondary">
             Technical Arsenal
           </span>
-          <h2 className="mt-3 text-4xl sm:text-5xl font-black text-gradient">
+          <h2 className="mt-3 text-4xl sm:text-5xl font-display font-bold text-foreground">
             Skills & Expertise
           </h2>
           <p className="mt-3 text-[var(--text-secondary)] max-w-xl">
@@ -45,9 +45,9 @@ export default function SkillsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: ci * 0.1, duration: 0.5 }}
-                className="glass-panel rounded-2xl p-6 space-y-4 hover:border-white/20 transition-all duration-300"
+                className="terracotta-card p-6 space-y-4 shadow-sm hover:border-primary/40 transition-all duration-300"
                 style={{
-                  borderColor: `${accent}20`,
+                  borderColor: `var(--border)`,
                 }}
               >
                 {/* Category header */}
@@ -57,8 +57,8 @@ export default function SkillsSection() {
                     style={{ background: accent, boxShadow: `0 0 10px ${accent}` }}
                   />
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200">{category.title}</h3>
-                    <p className="text-xs text-slate-600">{category.description}</p>
+                    <h3 className="text-sm font-bold text-foreground">{category.title}</h3>
+                    <p className="text-xs text-muted-foreground">{category.description}</p>
                   </div>
                 </div>
 
@@ -73,8 +73,8 @@ export default function SkillsSection() {
                       transition={{ delay: ci * 0.08 + si * 0.04 }}
                       className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 cursor-default ${
                         skill.highlight
-                          ? 'text-slate-200 border'
-                          : 'text-slate-500 border border-white/8 bg-white/3 hover:text-slate-300'
+                          ? 'text-foreground border border-primary/30'
+                          : 'text-muted-foreground border border-border bg-card hover:text-foreground'
                       }`}
                       style={
                         skill.highlight
@@ -112,12 +112,12 @@ export default function SkillsSection() {
               <BentoCard key={item.label} colSpan={1} rowSpan={1}>
                 <div className="flex flex-col justify-between h-full">
                   <div
-                    className="text-3xl font-black"
-                    style={{ color: item.accent, textShadow: `0 0 20px ${item.accent}60` }}
+                    className="text-3xl font-display font-bold"
+                    style={{ color: 'var(--primary)' }}
                   >
                     {item.label}
                   </div>
-                  <p className="text-xs text-slate-500">{item.detail}</p>
+                  <p className="text-xs text-muted-foreground">{item.detail}</p>
                 </div>
               </BentoCard>
             ))}
